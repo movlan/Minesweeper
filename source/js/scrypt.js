@@ -38,15 +38,14 @@ function handleClick(evt) {
 }
 
 function isZero(x,y) {
-    // let element = document.querySelector(`[x="${x}"][y="${y}"]`);
-    // element.classList.add('clicked');
+    let element = document.querySelector(`[x="${x}"][y="${y}"]`);
+    element.classList.add('clicked');
     for (let i = x - 1; i < x + 2; i++) {
         if (i >= 0 && i < boardSize) {
             for (let j = y - 1; j < y + 2; j++) {
                 if (j >= 0 && j < boardSize) {
                     if (!(i===x && j===y)) {
-                        console.log(x, y, i, j)
-                        // console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
+                        console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
                     }
                 }
             }
