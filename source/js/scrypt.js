@@ -1,10 +1,11 @@
 // constance
 const boardSize = 10;
-const mineCount = 10;
+const mineCount = 5;
 
 // variables
 let board;
 let mines;
+let clickAllowed;
 
 // chased elements
 const messageEl = document.querySelector('.message');
@@ -17,74 +18,62 @@ boardEl.addEventListener('click', handleClick);
 function init() {
     board = setBoard();
     mines = setMines();
+    clickAllowed = true
     placeMines();
     addCellValues();
     render();
 }
 
 function handleClick(evt) {
-    if (evt.target.getAttribute('class') !== 'cell') return;
+    if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
     let x = parseInt(evt.target.getAttribute('x'));
     let y = parseInt(evt.target.getAttribute('y'));
     let boardValue = board[x][y];
     if (boardValue === 'M') {
         gameOver();
+        return;
     } else if (boardValue > 0) {
         evt.target.classList.add('clicked');
         evt.target.innerText = boardValue;
     } else {
+        evt.target.classList.add('clicked');
         isZero(x, y);
     }
+    isWinner();
 }
 
 function isZero(x,y) {
-    let element = document.querySelector(`[x="${x}"][y="${y}"]`);
-    element.classList.add('clicked');
     for (let i = x - 1; i < x + 2; i++) {
         if (i >= 0 && i < boardSize) {
             for (let j = y - 1; j < y + 2; j++) {
                 if (j >= 0 && j < boardSize) {
                     if (!(i===x && j===y)) {
-                        console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
+                        if (!(document.querySelector(`[x="${i}"][y="${j}"]`).classList.contains('clicked'))) {
+                            document.querySelector(`[x="${i}"][y="${j}"]`).classList.add('clicked');
+                            if (board[i][j] > 0) {
+                                document.querySelector(`[x="${i}"][y="${j}"]`).innerText = board[i][j];
+                            } else {
+                                isZero(i, j);
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
-    // if (element.classList.contains('clicked')) {
-    //     return;
-    // } else {
-        // for (let i = x - 1; i < x + 2; i++) {
-        //     if (i >= 0 && i < boardSize && i !== x) {
-        //         for (let j = y - 1; j < y + 2; j++) {
-        //             if (j >= 0 && j < boardSize && j !== y) {
-        //                 console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
-        //             }
-        //         }
-        //     }
-        // }
-    // }
-    //     let test = document.querySelector(`[x="${x}"][y="${j}"]`);
-    //     console.log(test);
-    //                     console.log(test);
-                        
-    //                     if (board[i][j] === 0) {
-    //                         // isZero(i, j);
-    //                         // test.setAttribute('class', 'clicked');
-    //                     } else {
-    //                         // test.setAttribute('class', 'clicked');
-    //                         // test.innerText = board[x][y];
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 } 
 
+function isWinner() {
+    let clickedCellCount = boardEl.getElementsByClassName('clicked').length
+    if (boardSize * boardSize - mineCount === clickedCellCount) {
+        messageEl.innerText = 'You Won! Atta BOY!!!';
+        clickAllowed = false;
+    }
+}
+
 function gameOver() {
-    alert('Game Over YOU LOSER!!!!');
+    messageEl.innerText = 'Game Over YOU LOSER!!!!';
+    clickAllowed = false;
 }
 
 function render() {
@@ -135,7 +124,6 @@ function renderBoard() {
             td.setAttribute('class', 'cell');
             td.setAttribute('x', i);
             td.setAttribute('y', j);
-            td.innerText = board[i][j];
             row.appendChild(td);
         });
         tbody.appendChild(row);
