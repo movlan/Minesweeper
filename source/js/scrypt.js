@@ -1,6 +1,6 @@
 // constance
 const boardSize = 10;
-const mineCount = 20;
+const mineCount = 10;
 
 // variables
 let board;
@@ -24,13 +24,68 @@ function init() {
 
 function handleClick(evt) {
     if (evt.target.getAttribute('class') !== 'cell') return;
-    evt.target.setAttribute('class', 'clicked');
-    floodCells();
-    console.log(evt.target)
+    let x = parseInt(evt.target.getAttribute('x'));
+    let y = parseInt(evt.target.getAttribute('y'));
+    let boardValue = board[x][y];
+    if (boardValue === 'M') {
+        gameOver();
+    } else if (boardValue > 0) {
+        evt.target.classList.add('clicked');
+        evt.target.innerText = boardValue;
+    } else {
+        isZero(x, y);
+    }
 }
 
-function floodCells() {
-    
+function isZero(x,y) {
+    // let element = document.querySelector(`[x="${x}"][y="${y}"]`);
+    // element.classList.add('clicked');
+    for (let i = x - 1; i < x + 2; i++) {
+        if (i >= 0 && i < boardSize) {
+            for (let j = y - 1; j < y + 2; j++) {
+                if (j >= 0 && j < boardSize) {
+                    if (!(i===x && j===y)) {
+                        console.log(x, y, i, j)
+                        // console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
+                    }
+                }
+            }
+        }
+    }
+
+    // if (element.classList.contains('clicked')) {
+    //     return;
+    // } else {
+        // for (let i = x - 1; i < x + 2; i++) {
+        //     if (i >= 0 && i < boardSize && i !== x) {
+        //         for (let j = y - 1; j < y + 2; j++) {
+        //             if (j >= 0 && j < boardSize && j !== y) {
+        //                 console.log(document.querySelector(`[x="${i}"][y="${j}"]`));
+        //             }
+        //         }
+        //     }
+        // }
+    // }
+    //     let test = document.querySelector(`[x="${x}"][y="${j}"]`);
+    //     console.log(test);
+    //                     console.log(test);
+                        
+    //                     if (board[i][j] === 0) {
+    //                         // isZero(i, j);
+    //                         // test.setAttribute('class', 'clicked');
+    //                     } else {
+    //                         // test.setAttribute('class', 'clicked');
+    //                         // test.innerText = board[x][y];
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+} 
+
+function gameOver() {
+    alert('Game Over YOU LOSER!!!!');
 }
 
 function render() {
