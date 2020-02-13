@@ -8,24 +8,28 @@
 }
 
 body {
+    display: flex;
+    justify-content: center;
     font-family: 'Share Tech Mono', monospace;
     background-color: rgb(181, 179, 179);
     text-align: center;
-    position: relative;
-    text-align: center
+    /* position: relative; */
+    /* text-align: center */
 }
 
 .board {
     border: .5vmin solid rgb(230, 230, 230);
     border-style: outset;
-    max-width: fit-content;
     padding: 1vmin;
+    max-width: max-content;
+    /* size: initial; */
 }
 
 table {
     border: .5vmin solid rgb(230, 230, 230);
     border-spacing: 0;
     border-style: inset;
+    font-size: 3vmin;
     
 }
 
@@ -33,7 +37,6 @@ table td {
     font-weight: 800;
     background-color: rgb(169, 169, 169);
     box-sizing: border-box;
-    /* border-radius: 5px; */
     width: 5vmin;
     height: 5vmin;
     border: .5vmin solid;
@@ -86,12 +89,32 @@ p {
     padding: .4vmin .5vmin .1vmin .5vmin;
 }
 
+.flg-mine {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .mine {
     background: url('../images/mine.png');
     background-size: contain;
+    background-color: rgba(255, 0, 0, 0.6);
+    background-repeat: no-repeat;
 }
 
 .flag {
     background: url('../images/flag.png');
     background-size: contain;
 }
+
+button#flag {
+    height: 4vmin;
+    width: 4vmin;
+    background: url('../images/flag.png');
+    background-size: contain;
+    background-color: rgb(169, 169, 169);
+    border: .5vmin solid;
+    border-style: inset;
+    border-color: rgb(230, 230, 230);
+}
+

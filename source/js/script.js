@@ -1,22 +1,35 @@
 // constance
-const boardSize = 20;
-const mineCount = 30;
+const boardSize = 15;
+const mineCount = 10;
+const colors = {
+    '1': 'mediumblue', 
+    '2': 'green', 
+    '3': 'red', 
+    '4': 'navy', 
+    '5': 'brown', 
+    '6': 'olive', 
+    '7': 'black', 
+    '8': 'grey' 
+}
 
 // variables
 let board;
 let mines;
 let clickAllowed;
 let flags;
+let flagMode;
 
 // chased elements
 const messageEl = document.querySelector('.message');
 const boardEl = document.querySelector('.board');
-const btnEl = document.querySelector('.reset')
+const btnEl = document.querySelector('.reset');
+const flagBtn = document.querySelector('#flag')
 
 
 // event listeners
 boardEl.addEventListener('click', handleClick);
 btnEl.addEventListener('click', resetHandler);
+flagBtn.addEventListener('click', enableFlagMode);
 
 
 // functions
@@ -24,20 +37,32 @@ function init() {
     board = setBoard();
     mines = setMines();
     clickAllowed = true;
+    flagMode = false;
     flags = mineCount;
     placeMines();
-    addCellValues();
     render();
+    addCellValues();
 }
 
 function resetHandler() {
     boardEl.removeChild(document.querySelector('table'));
-
     init();
 }
 
+function enableFlagMode(evt) {
+    console.log(evt.target)
+    if (!flagMode) {
+        flagMode = true;
+        evt.target.style.backgroundColor = 'red';
+    } else {
+        flagMode = false;
+        evt.target.style.backgroundColor = '';
+    }
+}
+
 function handleClick(evt) {
-    if (evt.altKey) {
+    if (evt.altKey || flagMode) {
+        if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
         if (evt.target.getAttribute('class') === 'flag') {
             evt.target.removeAttribute('class', 'flag');
             evt.target.setAttribute('class', 'cell');
@@ -73,7 +98,9 @@ function isZero(x,y) {
             for (let j = y - 1; j < y + 2; j++) {
                 if (j >= 0 && j < boardSize) {
                     if (!(i===x && j===y)) {
-                        if (!(document.querySelector(`[x="${i}"][y="${j}"]`).classList.contains('clicked'))) {
+                        if ((document.querySelector(`[x="${i}"][y="${j}"]`).classList.contains('flag'))) {
+                            break;
+                        } if (!(document.querySelector(`[x="${i}"][y="${j}"]`).classList.contains('clicked'))) {
                             document.querySelector(`[x="${i}"][y="${j}"]`).classList.add('clicked');
                             if (board[i][j] > 0) {
                                 document.querySelector(`[x="${i}"][y="${j}"]`).innerText = board[i][j];
@@ -90,7 +117,7 @@ function isZero(x,y) {
 
 function isWinner() {
     let clickedCellCount = boardEl.getElementsByClassName('clicked').length
-    if (boardSize * boardSize - mineCount === clickedCellCount) {
+    if (boardSize * boardSize - mineCount === clickedCellCount || flags === 0 ) {
         messageEl.innerText = 'You Won! Atta BOY!!!';
         clickAllowed = false;
     }
@@ -127,6 +154,7 @@ function addCellValues() {
         arr.forEach((el, j) => {
             if (board[i][j] !== 'M') {
                 board[i][j] = cellValue(i, j);
+                boardEl.querySelector(`[x="${i}"][y="${j}"`).style.color = colors[cellValue(i, j)];
             }
         });
     });
