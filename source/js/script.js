@@ -1,30 +1,55 @@
 // constance
-const boardSize = 10;
-const mineCount = 5;
+const boardSize = 20;
+const mineCount = 30;
 
 // variables
 let board;
 let mines;
 let clickAllowed;
+let flags;
 
 // chased elements
 const messageEl = document.querySelector('.message');
 const boardEl = document.querySelector('.board');
+const btnEl = document.querySelector('.reset')
+
 
 // event listeners
 boardEl.addEventListener('click', handleClick);
+btnEl.addEventListener('click', resetHandler);
+
 
 // functions
 function init() {
     board = setBoard();
     mines = setMines();
-    clickAllowed = true
+    clickAllowed = true;
+    flags = mineCount;
     placeMines();
     addCellValues();
     render();
 }
 
+function resetHandler() {
+    boardEl.removeChild(document.querySelector('table'));
+
+    init();
+}
+
 function handleClick(evt) {
+    if (evt.altKey) {
+        if (evt.target.getAttribute('class') === 'flag') {
+            evt.target.removeAttribute('class', 'flag');
+            evt.target.setAttribute('class', 'cell');
+            flags++;
+            return;
+        } else if (evt.target.classList.contains('clicked')) {
+            return;
+        } else {
+            evt.target.setAttribute('class', 'flag');
+            flags--;
+        }
+    }
     if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
     let x = parseInt(evt.target.getAttribute('x'));
     let y = parseInt(evt.target.getAttribute('y'));
@@ -73,11 +98,28 @@ function isWinner() {
 
 function gameOver() {
     messageEl.innerText = 'Game Over YOU LOSER!!!!';
+    mines.forEach(el => {
+        boardEl.querySelector(`[x="${el[0]}"][y="${el[1]}"`).setAttribute('class', 'mine');
+    });
     clickAllowed = false;
 }
 
 function render() {
-    renderBoard()
+    let table = document.createElement('table');
+    let tbody = document.createElement('tbody');
+    board.forEach((arr, i) => {
+        let row = document.createElement('tr');
+        arr.forEach((el, j) => {
+            let td = document.createElement('td');
+            td.setAttribute('class', 'cell');
+            td.setAttribute('x', i);
+            td.setAttribute('y', j);
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+    boardEl.appendChild(table);
 }
 
 function addCellValues() {
@@ -112,24 +154,6 @@ function placeMines() {
     mines.forEach(el => {
         board[el[0]][el[1]] = 'M'
     });
-}
-
-function renderBoard() {
-    let table = document.createElement('table');
-    let tbody = document.createElement('tbody');
-    board.forEach((arr, i) => {
-        let row = document.createElement('tr');
-        arr.forEach((el, j) => {
-            let td = document.createElement('td');
-            td.setAttribute('class', 'cell');
-            td.setAttribute('x', i);
-            td.setAttribute('y', j);
-            row.appendChild(td);
-        });
-        tbody.appendChild(row);
-    });
-    table.appendChild(tbody);
-    boardEl.appendChild(table);
 }
 
 function setBoard() {

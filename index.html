@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper</title>
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="source/ccs/style.css">
-    <script defer src="source/js/scrypt.js"></script>
+    <script defer src="source/js/script.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="message">Message Here</div>
-        <div class="board"></div>
+        <div class="board">
+            <div class="header">
+                <section class="mines"><p>999</p></section>
+                <!-- <section class="reset"></section> -->
+                <section class="reset">Reset</section>
+                <section class="counter"><p>999</p></section>
+            </div>
+        </div>
         <div>
-            <button type="reset">Reset</button>
         </div>
     </div>
 </body>

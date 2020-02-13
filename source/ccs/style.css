@@ -1,33 +1,97 @@
+
+@font-face {
+    font-family: 'digital-7_monomono';
+    src: url('digital-7_mono-webfont.woff2') format('woff2'),
+         url('digital-7_mono-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
+    font-family: 'Share Tech Mono', monospace;
     background-color: rgb(181, 179, 179);
+    text-align: center;
+    position: relative;
+    text-align: center
+}
+
+.board {
+    border: .5vmin solid rgb(230, 230, 230);
+    border-style: outset;
+    max-width: fit-content;
+    padding: 1vmin;
 }
 
 table {
+    border: .5vmin solid rgb(230, 230, 230);
     border-spacing: 0;
+    border-style: inset;
+    
 }
 
 table td {
+    font-weight: 800;
     background-color: rgb(169, 169, 169);
     box-sizing: border-box;
     /* border-radius: 5px; */
-    width: 50px;
-    height: 50px;
-    border: 5px solid;
+    width: 5vmin;
+    height: 5vmin;
+    border: .5vmin solid;
     border-style: outset;
-    border-color: rgb(200, 200, 200);
+    border-color: rgb(230, 230, 230);
 }
 
 .clicked {
     /* border-color:  rgb(130, 150, 170; */
-    border: 1px solid rgb(145, 144, 144);
+    border: .1vmin solid rgb(145, 144, 144);
     /* border-collapse: collapse; */
 }
 
-button {
-    height: 50px;
-    width: 150px;
+.reset {
+    height: 4vmin;
+    width: 20vmin;
     background-color: rgb(169, 169, 169);
-    border: 5px solid;
+    border: .5vmin solid;
+    border-style: inset;
+    border-color: rgb(230, 230, 230);
+    font-size: 4vmin;
+}
+section {
+    padding: 0 1vmin;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .5vmin;
+    border: .5vmin solid rgb(230, 230, 230);
+    border-style: inset;
+    height: 6vmin;
+    margin-bottom: 1vmin;
+}
+
+p {
+    height: 3vmin;
+    width: 20vmin;
+    background-color: rgb(169, 169, 169);
+    border: .5vmin solid;
     border-style: outset;
-    border-color: rgb(200, 200, 200);
+    border-color: rgb(230, 230, 230);
+    font-family: 'digital-7_monomono';
+    font-size: 3.5vmin;
+    color: red;
+    background-color: black;
+    width: fit-content;
+    padding: .4vmin .5vmin .1vmin .5vmin;
+}
+
+.mine {
+    background: url('../images/mine.png');
+    background-size: contain;
+}
+
+.flag {
+    background: url('../images/flag.png');
+    background-size: contain;
 }
