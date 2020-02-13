@@ -8,6 +8,7 @@
 }
 
 body {
+    text-transform: uppercase;
     display: flex;
     justify-content: center;
     font-family: 'Share Tech Mono', monospace;
@@ -86,7 +87,7 @@ p {
     color: red;
     background-color: black;
     width: fit-content;
-    padding: .4vmin .5vmin .1vmin .5vmin;
+    padding: .5vmin;
 }
 
 .flg-mine {
