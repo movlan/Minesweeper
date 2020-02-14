@@ -95,6 +95,7 @@ function handleClick(evt) {
                 flagCounter.innerText = flags;
             }
         }
+        isWinner();
     }
     if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
     if (timer === 0) {
@@ -111,6 +112,7 @@ function handleClick(evt) {
             timer++;
             timerCounter.innerHTML = `<p>${timer}</p>`;
         }, 1000);
+        isWinner();
     }
     if (boardValue === 'M') {
         gameOver();
@@ -150,19 +152,19 @@ function isZero(x,y) {
 
 function isWinner() {
     let clickedCellCount = boardEl.getElementsByClassName('clicked').length
-    if (boardSize * boardSize - mineCount === clickedCellCount || flags === 0 || rightGuessed === mineCount) {
-        messageEl.innerText = 'You Won! Atta BOY!!!';
+    if ((boardSize * boardSize) - mineCount === clickedCellCount || flags === 0 || rightGuessed === mineCount) {
+        messageEl.innerText = 'You Won!';
         clearInterval(countdown);
         clickAllowed = false;
     }
 }
 
 function gameOver() {
-    messageEl.innerText = 'Game Over YOU LOSER!!!!';
+    messageEl.innerText = 'Game Over';
+    clearInterval(countdown);
     mines.forEach(el => {
         boardEl.querySelector(`[x="${el[0]}"][y="${el[1]}"`).setAttribute('class', 'mine');
     });
-    clearInterval(countdown);
     clickAllowed = false;
 }
 
