@@ -11,3 +11,5 @@ Project 1
             1.2. Populate mines
             1.3. Render
         
+[My awsome Minesweeper](https://movlan.github.io/SEI-project-1-Minesweeper/)
+
