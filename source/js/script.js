@@ -145,14 +145,14 @@ function isZero(x,y) {
 function isWinner() {
     let clickedCellCount = boardEl.getElementsByClassName('clicked').length
     if (boardSize * boardSize - mineCount === clickedCellCount || flags === 0 || rightGuessed === mineCount) {
-        messageEl.innerText = 'You Won! Atta BOY!!!';
+        messageEl.innerText = 'You Won!';
         clearInterval(countdown);
         clickAllowed = false;
     }
 }
 
 function gameOver() {
-    messageEl.innerText = 'Game Over YOU LOSER!!!!';
+    messageEl.innerText = 'Game Over';
     mines.forEach(el => {
         boardEl.querySelector(`[x="${el[0]}"][y="${el[1]}"`).setAttribute('class', 'mine');
     });
