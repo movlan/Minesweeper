@@ -20,6 +20,7 @@ let flags;
 let flagMode;
 let timer;
 let countdown;
+let flagsArr;
 
 // chased elements
 const messageEl = document.querySelector('.message');
@@ -27,6 +28,7 @@ const boardEl = document.querySelector('.board');
 const btnEl = document.querySelector('.reset');
 const flagBtn = document.querySelector('#flag');
 const timerCounter = document.querySelector('.counter'); 
+const flagCounter = document.querySelector('p');
 
 
 // event listeners
@@ -43,6 +45,7 @@ function init() {
     flagMode = false;
     flags = mineCount;
     timer = 0;
+    rightGuessed = 0;
     placeMines();
     render();
     addCellValues();
@@ -54,7 +57,6 @@ function resetHandler() {
 }
 
 function enableFlagMode(evt) {
-    console.log(evt.target)
     if (!flagMode) {
         flagMode = true;
         evt.target.style.backgroundColor = 'red';
@@ -67,28 +69,43 @@ function enableFlagMode(evt) {
 function handleClick(evt) {
     if (evt.altKey || flagMode) {
         if (!evt.target.classList.contains('cell') || !clickAllowed) return;
+        let x = parseInt(evt.target.getAttribute('x'));
+        let y = parseInt(evt.target.getAttribute('y'));
+        let boardValue = board[x][y];
         if (evt.target.classList.contains('flag')) {
             evt.target.removeAttribute('class', 'flag');
             evt.target.setAttribute('class', 'cell');
             flags++;
+            if (boardValue === 'M') {
+                rightGuessed--;
+            }
+            if (flags >= 0) {
+                flagCounter.innerText = flags;
+            }
             return;
         } else if (evt.target.classList.contains('clicked')) {
             return;
         } else {
             evt.target.setAttribute('class', 'cell flag');
             flags--;
+            if (boardValue === 'M') {
+                rightGuessed++;
+            }
+            if (flags >= 0) {
+                flagCounter.innerText = flags;
+            }
         }
     }
     if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
+    let x = parseInt(evt.target.getAttribute('x'));
+    let y = parseInt(evt.target.getAttribute('y'));
+    let boardValue = board[x][y];
     if (timer === 0) {
         countdown = setInterval(function() {
             timer++;
             timerCounter.innerHTML = `<p>${timer}</p>`;
         }, 1000);
     }
-    let x = parseInt(evt.target.getAttribute('x'));
-    let y = parseInt(evt.target.getAttribute('y'));
-    let boardValue = board[x][y];
     if (boardValue === 'M') {
         gameOver();
         return;
@@ -127,7 +144,7 @@ function isZero(x,y) {
 
 function isWinner() {
     let clickedCellCount = boardEl.getElementsByClassName('clicked').length
-    if (boardSize * boardSize - mineCount === clickedCellCount || flags === 0 ) {
+    if (boardSize * boardSize - mineCount === clickedCellCount || flags === 0 || rightGuessed === mineCount) {
         messageEl.innerText = 'You Won! Atta BOY!!!';
         clearInterval(countdown);
         clickAllowed = false;
@@ -159,6 +176,9 @@ function render() {
     });
     table.appendChild(tbody);
     boardEl.appendChild(table);
+    if (flags >= 0) {
+        flagCounter.innerText = flags;
+    }
 }
 
 function addCellValues() {

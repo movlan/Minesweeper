@@ -13,8 +13,6 @@ body {
     font-family: 'Share Tech Mono', monospace;
     background-color: rgb(181, 179, 179);
     text-align: center;
-    /* position: relative; */
-    /* text-align: center */
 }
 
 .board {
@@ -22,7 +20,6 @@ body {
     border-style: outset;
     padding: 1vmin;
     max-width: max-content;
-    /* size: initial; */
 }
 
 table {
@@ -45,9 +42,7 @@ table td {
 }
 
 .clicked {
-    /* border-color:  rgb(130, 150, 170; */
     border: .1vmin solid rgb(145, 144, 144);
-    /* border-collapse: collapse; */
 }
 
 .reset {
@@ -117,4 +112,3 @@ button#flag {
     border-style: inset;
     border-color: rgb(230, 230, 230);
 }
-
