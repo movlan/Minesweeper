@@ -95,7 +95,6 @@ function handleClick(evt) {
                 flagCounter.innerText = flags;
             }
         }
-        isWinner();
     }
     if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
     if (timer === 0) {
@@ -112,7 +111,6 @@ function handleClick(evt) {
             timer++;
             timerCounter.innerHTML = `<p>${timer}</p>`;
         }, 1000);
-        isWinner();
     }
     if (boardValue === 'M') {
         gameOver();
