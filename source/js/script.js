@@ -95,9 +95,14 @@ function handleClick(evt) {
                 flagCounter.innerText = flags;
             }
         }
-        isWinner();
     }
     if (evt.target.getAttribute('class') !== 'cell' || !clickAllowed) return;
+    if (timer === 0) {
+        countdown = setInterval(function() {
+            timer++;
+            timerCounter.innerHTML = `<p>${timer}</p>`;
+        }, 1000);
+    }
     let x = parseInt(evt.target.getAttribute('x'));
     let y = parseInt(evt.target.getAttribute('y'));
     let boardValue = board[x][y];
@@ -106,7 +111,6 @@ function handleClick(evt) {
             timer++;
             timerCounter.innerHTML = `<p>${timer}</p>`;
         }, 1000);
-        isWinner();
     }
     if (boardValue === 'M') {
         gameOver();
