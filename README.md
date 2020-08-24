@@ -1,4 +1,4 @@
-# SEI-project-1-Minesweeper
+Minesweeper
 
 SEI CC07 Bahram Movlanov
 Project 1 
