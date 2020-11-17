@@ -252,6 +252,18 @@ function isZero(x, y) {
   }
 }
 
+// game over; show all mine location
+function gameOver() {
+  messageEl.innerText = "Game Over";
+  clearInterval(countdown);
+  mines.forEach((el) => {
+    boardEl
+      .querySelector(`[x="${el[0]}"][y="${el[1]}"`)
+      .setAttribute("class", "mine");
+  });
+  clickAllowed = false;
+}
+
 // check winner helper
 function isWinner() {
   let clickedCellCount = boardEl.getElementsByClassName("clicked").length;
@@ -264,18 +276,6 @@ function isWinner() {
     clearInterval(countdown);
     clickAllowed = false;
   }
-}
-
-// game over; show all mine location
-function gameOver() {
-  messageEl.innerText = "Game Over";
-  clearInterval(countdown);
-  mines.forEach((el) => {
-    boardEl
-      .querySelector(`[x="${el[0]}"][y="${el[1]}"`)
-      .setAttribute("class", "mine");
-  });
-  clickAllowed = false;
 }
 
 init();
